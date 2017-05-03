@@ -37,7 +37,7 @@ shinyServer(function(input, output) {
   dfbp3 <- eventReactive(c(input$click5, input$range5a), {
     dfbp1 %>% dplyr::filter(lubridate::year(missingfromdate) == as.integer(input$range5a)) 
     })
-  output$boxplotData1 <- renderDataTable({DT::datatable(dfbp3, rownames = FALSE,
+  output$boxplotData1 <- renderDataTable({DT::datatable(dfbp1, rownames = FALSE,
                                                 extensions = list(Responsive = TRUE, 
                                                 FixedHeader = TRUE)
   )
@@ -45,9 +45,15 @@ shinyServer(function(input, output) {
   
 
   output$boxplotPlot1 <- renderPlotly({
+    means <- aggregate(weight ~ race,dfbp1, mean)
     
-    p <- ggplot(dfbp3) + 
-      geom_boxplot(aes(x=race, y=weight))
+    rounded_means <- round(means$weight,1)
+    
+    means$weight <- rounded_means
+    p <- ggplot(dfbp1, aes(x=race,y=weight)) + 
+      geom_boxplot() + 
+      stat_summary(fun.y = "mean", colour="darkred", geom="point", shape=18, size=2,show_guide = FALSE) +
+      geom_text(data = means, aes(label = weight, y = weight+10))
     ggplotly(p)
   })
   # End Box Plot Tab ___________________________________________________________
