@@ -89,7 +89,7 @@ An interesting thing to note from the histogram is that similar to the box plots
 
 
 ### **Figure 8: Visualization 4 - Shiny Visualization**
-<center> ![Visual](../03 Visualizations/Scatterplot_1.png) </center>
+<center> ![Visual](../03 Visualizations/Scatterplot1_1.png) </center>
 
 
 Figure 7 and 8 shows a scatterplot that compares missing children weight (x-axis) versus height (y-axis) colored by gender. 

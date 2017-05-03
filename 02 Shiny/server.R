@@ -23,7 +23,7 @@ shinyServer(function(input, output) {
   # The following query is for the select list in the Barcharts -> Barchart with Table Calculation tab.
   races = query(
     data.world(propsfile = "www/.data.world"),
-    dataset="carolhuang0502/s-17-dv-project-6", type="sql",
+    dataset="carolhuang0502/s-17-dv-final-project", type="sql",
     query="select distinct race as D, race as R
     from MediaReadyActiveCases
     order by 1"
@@ -58,7 +58,7 @@ shinyServer(function(input, output) {
   # The following query is for hte select list in the Barcharts -> Missing By Year
   sales = query(
     data.world(propsfile = "www/.data.world"),
-    dataset="carolhuang0502/s-17-dv-project-6", type="sql",
+    dataset="carolhuang0502/s-17-dv-final-project", type="sql",
     query="select CAST (year(CAST (missingreporteddate AS date)) as string) as year, count(childid) as record
     from MediaReadyActiveCases
     group by CAST (year(CAST (missingreporteddate AS date)) as string)
@@ -142,7 +142,7 @@ output$boxplotPlot1 <- renderPlotly({
   })
   
   output$scatterData1 <- renderDataTable({DT::datatable(dfs1(), rownames = FALSE, extensions = list(Responsive = TRUE, FixedHeader = TRUE))})
-  output$scatterPlot1 <- renderPlot({ggplot(df1(),aes(x=weight, y=height, color = sex))+
+  output$scatterPlot1 <- renderPlot({ggplot(dfs1(),aes(x=weight, y=height, color = sex))+
       geom_point(shape = 1) +
       geom_smooth(method=lm, se=FALSE, fullrange=TRUE)
   })
@@ -153,7 +153,7 @@ output$boxplotPlot1 <- renderPlotly({
     print("Getting from data.world")
     query(
       data.world(propsfile = "www/.data.world"),
-      dataset="carolhuang0502/s-17-dv-project-5", type="sql",
+      dataset="carolhuang0502/s-17-dv-final-project", type="sql",
       query="select missingfromstate, race, count, hh_0k_to_25k,total_households, hh_0k_to_25k/total_households as Perc_Below_25k,
       
       case
@@ -192,7 +192,7 @@ output$boxplotPlot1 <- renderPlotly({
       print("Getting from data.world")
       tdf = query(
         data.world(propsfile = "www/.data.world"),
-        dataset="carolhuang0502/s-17-dv-project-6", type="sql",
+        dataset="carolhuang0502/s-17-dv-final-project", type="sql",
         query="select missingfromstate, race, count(childid) count_childid
         from MediaReadyActiveCases
         where ? = 'All' or race in (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
