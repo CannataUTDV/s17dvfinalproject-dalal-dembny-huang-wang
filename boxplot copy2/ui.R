@@ -31,12 +31,7 @@ dashboardPage(
                          DT::dataTableOutput("boxplotData1")
                 ),
                 tabPanel("Simple Box Plot", 
-                         sliderInput("range5a", "Loop through years:", 
-                                     1970, 
-                                     max(globals$missingfromdate), 
-                                     max(globals$missingfromdate), 
-                                     step = 1,
-                                     animate=animationOptions(interval=2000, loop=T)),
+                         
                          plotlyOutput("boxplotPlot1", height=500))
               )
       ),

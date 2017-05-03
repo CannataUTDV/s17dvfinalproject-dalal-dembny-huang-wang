@@ -33,16 +33,15 @@ shinyServer(function(input, output) {
         query="select weight,race,missingfromdate
         from MediaReadyActiveCases
         where weight<400") # %>% View()
-    
-  dfbp3 <- eventReactive(c(input$click5, input$range5a), {
-    dfbp1 %>% dplyr::filter(lubridate::year(missingfromdate) == as.integer(input$range5a)) 
-    })
+
+  
   output$boxplotData1 <- renderDataTable({DT::datatable(dfbp1, rownames = FALSE,
                                                 extensions = list(Responsive = TRUE, 
                                                 FixedHeader = TRUE)
   )
   })
   
+
 
   output$boxplotPlot1 <- renderPlotly({
     means <- aggregate(weight ~ race,dfbp1, mean)
