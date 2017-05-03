@@ -10,7 +10,8 @@ dashboardPage(
   ),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Barcharts, Table Calculations", tabName = "barchart", icon = icon("dashboard"))
+      menuItem("Barcharts, Table Calculations", tabName = "barchart", icon = icon("dashboard")),
+      menuItem("Scatterplots", tabName = "Scatterplot", icon = icon("dashboad"))
     )
   ),
   dashboardBody(    
@@ -41,9 +42,26 @@ dashboardPage(
           tabPanel("Medium Bachelors Degree Level", leafletOutput("barchartMap1"), height=900 ),
           tabPanel("Missing by Year", plotlyOutput("barchartPlot2",width=1300,height=800) )
         )
-      )
+      ),
+      # End Barchart tab content.
+      # Start of Scatterplot Content
+      tabItem(tabName = "Scatterplot",
+              tabsetPanel(
+                tabPanel("Data",  
+                         radioButtons("rb2", "Get data from:",
+                                      c("SQL" = "SQL", inline=T),
+                         uiOutput("races2"), # See http://shiny.rstudio.com/gallery/dynamic-ui.html
+                         actionButton(inputId = "click2",  label = "To get data, click here"),
+                         hr(), # Add space after button.
+                         'Here is data for the "Scatterplot" tab',
+                         hr(),
+                         DT::dataTableOutput("ScatterData1"))
+                         )
+                     )
       # End Barchart tab content.
     )
   )
 )
+)
+
 
