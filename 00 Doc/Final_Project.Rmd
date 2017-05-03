@@ -96,58 +96,48 @@ Figure 7 and 8 shows a scatterplot that compares missing children weight (x-axis
 
 This plot is interesting because the of the regression line that is placed on each gender; the female regression line is significantly less steep than the male, suggesting that the average missing female is predicted to have a higher weight/height ratio than the average missing male.
 
-### **Figure 9: Visualization 5 - Tableau Visualization**
-<center> ![Visual](../03 Visualizations/Scatterplot_2.png) </center>
-
-
-### **Figure 10: Visualization 5 - Shiny Visualization**
-<center> ![Visual](../03 Visualizations/Scatterplot_2.png) </center>
-
-FIgure 9 and 10 show a geographic fields map using Tableau. The poverty percentage is defined as the # of people below the poverty line / total # of people in the state * 100. The state ID was used as the X and Y axis for the Tableau graph, resulting in a map with dots representing the number of cases for each state. The size of the circles corresponds to the number of missing child cases, and the color of the circles corresponds to the poverty ratio. In this case, the darker (more red), the higher the percentage of poverty. Using the missing children data and inner joins the data on the State ID, a query was run from the data.world census data that outputs the state ID, state population, and state poverty amount.
-
-Something interesting to note is the southern states tend to have higher poverty ratios than the northern states. Additionally, the greater amount of missing children occur towards the east and west coast. 
 
 ## **Crosstabs**
 
-### **Figure 11: Visualization 6 - Tableau Visualization**
+### **Figure 9: Visualization 5 - Tableau Visualization**
 <center> ![Visual](../03 Visualizations/crosstab1.png) </center>
 
 
-### **Figure 12: Visualization 6 - Shiny Visualization**
+### **Figure 10: Visualization 5 - Shiny Visualization**
 <center> ![Visual](../03 Visualizations/crosstab1_1.png) </center>
 
 
-Figure 11 and 12 shows a crosstab of state vs. race of missing children. It is filtered given the parameter that the income for household is less than 25K. It is then separated between Low, Medium, and High which is defined as number of household with income level from 0k-25k over the total number of households. Using the MediaReadyActiveCases and US Census data, specifically the income data, Figure 1 was produced via Tableau while Figure 2 was produced using Shiny. 
+Figure 9 and 10 shows a crosstab of state vs. race of missing children. It is filtered given the parameter that the income for household is less than 25K. It is then separated between Low, Medium, and High which is defined as number of household with income level from 0k-25k over the total number of households. Using the MediaReadyActiveCases and US Census data, specifically the income data, Figure 1 was produced via Tableau while Figure 2 was produced using Shiny. 
 
 An interesting thing to note is that the majority of the childrens that go missing are from the middle range income. This is apparent across the majority of the states.  
 
 
 ## **Barcharts**
 
-### **Figure 15: Visualization 8 - Tableau Visualization**
+### **Figure 11: Visualization 6 - Tableau Visualization**
 <center> ![Visual](../03 Visualizations/barchart1.png) </center>
 
 
-### **Figure 16: Visualization 8 - Shiny Visualization**
+### **Figure 12: Visualization 6 - Shiny Visualization**
 <center> ![Visual](../03 Visualizations/barchart1_1.png) </center>
 
-Figure 15 and 16 shows a barchart of the race of missing children vs. the count of children missing, specifically in each state. The black line shows the average number of children missing in each state across all races. Additionally, there is a table calculation within this barchart The Average Count of Children per Race - count of Children per Race is calculated and indicated on the barchart. 
+Figure 11 and 12 shows a barchart of the race of missing children vs. the count of children missing, specifically in each state. The black line shows the average number of children missing in each state across all races. Additionally, there is a table calculation within this barchart The Average Count of Children per Race - count of Children per Race is calculated and indicated on the barchart. 
 
 An interesting thing to note for this barchart is the fact that white children are more likely to go missing in each state. Additionally, typically Asian childrens are one of the least likely to go missing in each state. Figure 1 was created in Tableau while Figure 2 was created using Shiny.
 
-### **Figure 17: Visualization 9 - Tableau Visualization**
+### **Figure 13: Visualization 7 - Tableau Visualization**
 <center> ![Visual](../03 Visualizations/barchart2.png) </center>
 
 
-### **Figure 18: Visualization 9 - Shiny Visualization**
+### **Figure 14: Visualization 7 - Shiny Visualization**
 <center> ![Visual](../03 Visualizations/barchart2_1.png) </center>
 
 
-Figure 17 and 18 show a geographic fields map based on longitude and latitude. The color on the map differentiates between whether females or males are the sex of the majority of the children that have gone missing. A set was made from a barchart of missingfromstate vs. the sum of people with bachelor's degrees in each state. This data was created by joining the MediaReadyActiveCases with the Education data from the US Census Data. This set consists of the "Medium" group with bachelor's degrees. This set was then plotted on the map. For the two figures, the type of case was also included in a popup upon hovering over the location. 
+Figure 13 and 14 show a geographic fields map based on longitude and latitude. The color on the map differentiates between whether females or males are the sex of the majority of the children that have gone missing. A set was made from a barchart of missingfromstate vs. the sum of people with bachelor's degrees in each state. This data was created by joining the MediaReadyActiveCases with the Education data from the US Census Data. This set consists of the "Medium" group with bachelor's degrees. This set was then plotted on the map. For the two figures, the type of case was also included in a popup upon hovering over the location. 
 
 Something to notice is that the majority of this set comes from the east side of the United States. Additionally, these cases are typically endangered runaway cases. Figure 3 was created via Tableau while Figure 4 was created using Shiny.
 
-Figures 2, 4, 6, 8, 10, 12, 14, 16,  and 18has been published to the following shiny.ios app: https://carolhuang0502.shinyapps.io/finalproject/
+Figures 2, 4, 6, 8, 10, 12, and 14 has been published to the following shiny.ios app: https://carolhuang0502.shinyapps.io/finalproject/
 
 
 #  **Source Code**

@@ -62,28 +62,27 @@ dashboardPage(
                          hr(), # Add space after button.
                          DT::dataTableOutput("scatterData1")
                 ),
-                tabPanel("Simple Scatter Plot", plotlyOutput("scatterPlot1", height=1000))
+                tabPanel("Simple Scatter Plot", plotOutput("scatterPlot1", height=900))
               )
       ),
       # End Scatter Plots tab content.
       # Begin Crosstab tab content.
       tabItem(tabName = "crosstab",
-        tabsetPanel(
-            tabPanel("Data",  
-              radioButtons("rb1", "Get data from:",
-                c("SQL" = "SQL",
-                  "CSV" = "CSV"), inline=T),
-              sliderInput("KPI1", "KPI_Low:", 
-                          min = 0, max = .1,  value = .1),
-              sliderInput("KPI2", "KPI_Medium:", 
-                          min = .1, max = .2,  value = .2),
-              actionButton(inputId = "click1",  label = "To get data, click here"),
-              hr(), # Add space after button.
-              DT::dataTableOutput("data1")
-            ),
-            tabPanel("Crosstab", plotOutput("plot1", height=1000))
-          )
-        ),
+              tabsetPanel(
+                tabPanel("Data",  
+                         radioButtons("rb1", "Get data from:",
+                                      c("SQL" = "SQL"), inline=T),
+                         sliderInput("KPI1", "KPI_Low:", 
+                                     min = 0, max = .15,  value = .15),
+                         sliderInput("KPI2", "KPI_Medium:", 
+                                     min = .15, max = .3,  value = .3),
+                         actionButton(inputId = "click1",  label = "To get data, click here"),
+                         hr(), # Add space after button.
+                         DT::dataTableOutput("data1")
+                ),
+                tabPanel("Crosstab", plotOutput("plot1", height=1000))
+              )
+      ),
       # End Crosstab tab content.
       # Begin Barchart tab content.
       tabItem(tabName = "barchart",
@@ -102,14 +101,10 @@ dashboardPage(
                          'Here is data for the "Medium Bachelors Degree Level" tab',
                          hr(),
                          DT::dataTableOutput("barchartData2"),
-                         hr(),
-                         'Here is data for the "Missing by Year" tab',
-                         hr(),
-                         DT::dataTableOutput("barchartData3")
+                         hr()
                 ),
                 tabPanel("Race of Missing Children per State with Table Calculation", "Black = Count of Children per Race, Red = Average Count of Children per missingfromstate, and  Blue = (Average Count of Children per Race - Count of Children per Race)", plotOutput("barchartPlot1", height=6000)),
-                tabPanel("Medium Bachelors Degree Level", leafletOutput("barchartMap1"), height=900 ),
-                tabPanel("Missing by Year", plotlyOutput("barchartPlot2",width=1300,height=800) )
+                tabPanel("Medium Bachelors Degree Level", leafletOutput("barchartMap1"), height=900 )
               )
       )
       # End Barchart tab content.

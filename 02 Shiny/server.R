@@ -11,6 +11,10 @@ require(plotly)
 
 shinyServer(function(input, output) { 
   
+  online1 = reactive({input$rb1})
+  KPI_Low = reactive({input$KPI1})     
+  KPI_Medium = reactive({input$KPI2})
+  
   # These widgets are for the Barcharts tab.
   online2 = reactive({input$rb2})
   output$races2 <- renderUI({selectInput("selectedraces", "Choose Races:", race_list, multiple = TRUE, selected='All') })
@@ -126,7 +130,60 @@ output$boxplotPlot1 <- renderPlotly({
   })
 
   # End Histogram Tab ___________________________________________________________
-
+  # Begin Scatterplot Tab ------------------------------------------------------------------
+  dfs1 <- eventReactive(input$click3, {
+    print("Getting from data.world")
+    query(
+      data.world(propsfile = "www/.data.world"),
+      dataset="carolhuang0502/s-17-dv-final-project", type="sql",
+      query="select `height-in` as height, weight, sex
+      from MediaReadyActiveCases"
+    ) 
+  })
+  
+  output$scatterData1 <- renderDataTable({DT::datatable(dfs1(), rownames = FALSE, extensions = list(Responsive = TRUE, FixedHeader = TRUE))})
+  output$scatterPlot1 <- renderPlot({ggplot(df1(),aes(x=weight, y=height, color = sex))+
+      geom_point(shape = 1) +
+      geom_smooth(method=lm, se=FALSE, fullrange=TRUE)
+  })
+  # End Scatterplot Tab ___________________________________________________________
+  # Begin Crosstab 1 Tab ------------------------------------------------------------------
+  df1 <- eventReactive(input$click1, {
+    
+    print("Getting from data.world")
+    query(
+      data.world(propsfile = "www/.data.world"),
+      dataset="carolhuang0502/s-17-dv-project-5", type="sql",
+      query="select missingfromstate, race, count, hh_0k_to_25k,total_households, hh_0k_to_25k/total_households as Perc_Below_25k,
+      
+      case
+      when hh_0k_to_25k/total_households < ? then '03 Low'
+      when hh_0k_to_25k/total_households < ? then '02 Medium'
+      else '01 High'
+      end AS kpi
+      
+      from cleanedracedata
+      left join incomequeryresult
+      on missingfromstate= State",
+      queryParameters = list(KPI_Low(), KPI_Medium())
+      
+    ) 
+    
+    
+  })
+  output$data1 <- renderDataTable({DT::datatable(df1(), rownames = FALSE,
+                                                 extensions = list(Responsive = TRUE, FixedHeader = TRUE)
+  )
+  })
+  output$plot1 <- renderPlot({ggplot(df1()) + 
+      theme(axis.text.x=element_text(angle=90, size=16, vjust=0.5)) + 
+      theme(axis.text.y=element_text(size=16, hjust=0.5)) +
+      geom_tile(aes(x=race, y=missingfromstate, fill = kpi), size=6)+
+      geom_text(aes(x=race, y=missingfromstate, label=count), size=6) 
+    
+  })
+  # End Crosstab 1 Tab ___________________________________________________________
+  
   # Begin Barchart Tab ------------------------------------------------------------------
   df2 <- eventReactive(input$click2, {
     if(input$selectedraces == 'All') race_list <- input$selectedraces
