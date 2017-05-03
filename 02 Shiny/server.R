@@ -11,7 +11,7 @@ require(plotly)
 
 shinyServer(function(input, output) { 
   
-  online1 = reactive({input$rb1})
+  online3 = reactive({input$rb1})
   KPI_Low = reactive({input$KPI1})     
   KPI_Medium = reactive({input$KPI2})
   
@@ -153,7 +153,7 @@ output$boxplotPlot1 <- renderPlotly({
     print("Getting from data.world")
     query(
       data.world(propsfile = "www/.data.world"),
-      dataset="carolhuang0502/s-17-dv-final-project", type="sql",
+      dataset="carolhuang0502/s-17-dv-project-5", type="sql",
       query="select missingfromstate, race, count, hh_0k_to_25k,total_households, hh_0k_to_25k/total_households as Perc_Below_25k,
       
       case
