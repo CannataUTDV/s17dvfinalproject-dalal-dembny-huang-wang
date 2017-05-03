@@ -16,51 +16,116 @@ shinyServer(function(input, output) {
   output$races2 <- renderUI({selectInput("selectedraces", "Choose Races:", race_list, multiple = TRUE, selected='All') })
   
   
-# The following query is for the select list in the Barcharts -> Barchart with Table Calculation tab.
-races = query(
-  data.world(propsfile = "www/.data.world"),
-  dataset="carolhuang0502/s-17-dv-project-6", type="sql",
-  query="select distinct race as D, race as R
-  from MediaReadyActiveCases
-  order by 1"
-) # %>% View()
-if(races[1] == "Server error") {
-  print("Getting races from csv")
-  file_path = "../01 Data/MediaReadyActiveCases.csv"
-  df <- readr::read_csv(file_path) 
-  tdf1 = df %>% dplyr::distinct(race) %>% arrange(race) %>% dplyr::rename(D = race)
-  tdf2 = df %>% dplyr::distinct(race) %>% arrange(race) %>% dplyr::rename(R = race)
-  races = bind_cols(tdf1, tdf2)
-}
-race_list <- as.list(races$D, races$R)
-race_list <- append(list("All" = "All"), race_list)
-
-# The following query is for the select list in the Barcharts -> Medium Bachelors Degree Level
-degrees = query(
-  data.world(propsfile = "www/.data.world"),
-  dataset="carolhuang0502/s-17-dv-project-6", type="sql",
-  query="SELECT sex, casetype, missingfromcity, educationqueryresult.State, bachelors_degree, state_lat_long.State as state, Latitude, Longitude, sum(bachelors_degree) as sum_bac
-  FROM MediaReadyActiveCases s inner join
-  educationqueryresult a
-  ON (s.missingfromstate = a.State) inner join 
-  state_lat_long c
-  ON (s.missingfromstate = c.State)
-  where c.State in (a.State)
-  group by missingfromstate
-  having sum(bachelors_degree)> 32000000 and sum(bachelors_degree)< 490000000"
+  # The following query is for the select list in the Barcharts -> Barchart with Table Calculation tab.
+  races = query(
+    data.world(propsfile = "www/.data.world"),
+    dataset="carolhuang0502/s-17-dv-project-6", type="sql",
+    query="select distinct race as D, race as R
+    from MediaReadyActiveCases
+    order by 1"
+  ) # %>% View()
+  if(races[1] == "Server error") {
+    print("Getting races from csv")
+    file_path = "../01 Data/MediaReadyActiveCases.csv"
+    df <- readr::read_csv(file_path) 
+    tdf1 = df %>% dplyr::distinct(race) %>% arrange(race) %>% dplyr::rename(D = race)
+    tdf2 = df %>% dplyr::distinct(race) %>% arrange(race) %>% dplyr::rename(R = race)
+    races = bind_cols(tdf1, tdf2)
+  }
+  race_list <- as.list(races$D, races$R)
+  race_list <- append(list("All" = "All"), race_list)
   
-)  # %>% View()
+  # The following query is for the select list in the Barcharts -> Medium Bachelors Degree Level
+  degrees = query(
+    data.world(propsfile = "www/.data.world"),
+    dataset="carolhuang0502/s-17-dv-project-6", type="sql",
+    query="SELECT sex, casetype, missingfromcity, educationqueryresult.State, bachelors_degree, state_lat_long.State as state, Latitude, Longitude, sum(bachelors_degree) as sum_bac
+    FROM MediaReadyActiveCases s inner join
+    educationqueryresult a
+    ON (s.missingfromstate = a.State) inner join 
+    state_lat_long c
+    ON (s.missingfromstate = c.State)
+    where c.State in (a.State)
+    group by missingfromstate
+    having sum(bachelors_degree)> 32000000 and sum(bachelors_degree)< 490000000"
+    
+  )  # %>% View()
+  
+  # The following query is for hte select list in the Barcharts -> Missing By Year
+  sales = query(
+    data.world(propsfile = "www/.data.world"),
+    dataset="carolhuang0502/s-17-dv-project-6", type="sql",
+    query="select CAST (year(CAST (missingreporteddate AS date)) as string) as year, count(childid) as record
+    from MediaReadyActiveCases
+    group by CAST (year(CAST (missingreporteddate AS date)) as string)
+    order by year"
+  ) # %>% View()
+  
 
-# The following query is for hte select list in the Barcharts -> Missing By Year
-sales = query(
-  data.world(propsfile = "www/.data.world"),
-  dataset="carolhuang0502/s-17-dv-project-6", type="sql",
-  query="select CAST (year(CAST (missingreporteddate AS date)) as string) as year, count(childid) as record
-      from MediaReadyActiveCases
-  group by CAST (year(CAST (missingreporteddate AS date)) as string)
-  order by year"
-) # %>% View()
+# Begin Box Plot Tab ------------------------------------------------------------------
+dfbp1 <- 
+  
+  query(
+    data.world(propsfile = "www/.data.world"),
+    dataset="carolhuang0502/s-17-dv-final-project", type="sql",
+    query="select weight,race,missingfromdate
+    from MediaReadyActiveCases
+    where weight<400") # %>% View()
 
+
+output$boxplotData1 <- renderDataTable({DT::datatable(dfbp1, rownames = FALSE,
+                                                      extensions = list(Responsive = TRUE, 
+                                                                        FixedHeader = TRUE)
+)
+})
+
+
+
+output$boxplotPlot1 <- renderPlotly({
+  means <- aggregate(weight ~ race,dfbp1, mean)
+  
+  rounded_means <- round(means$weight,1)
+  
+  means$weight <- rounded_means
+  p <- ggplot(dfbp1, aes(x=race,y=weight)) + 
+    geom_boxplot() + 
+    stat_summary(fun.y = "mean", colour="darkred", geom="point", shape=18, size=2,show_guide = FALSE) +
+    geom_text(data = means, aes(label = weight, y = weight+10))
+  ggplotly(p)
+})
+# End Box Plot Tab ___________________________________________________________
+
+  # Begin Histogram Tab ------------------------------------------------------------------
+  dfh1 <-   query(
+    data.world(propsfile = "www/.data.world"),
+    dataset="carolhuang0502/s-17-dv-final-project", type="sql",
+    query="select year
+    from Year_query") # %>% View()
+  output$histogramData1 <- renderDataTable({DT::datatable(dfh1,
+                                                       rownames = FALSE,
+                                                       extensions = list(Responsive = TRUE, FixedHeader = TRUE) )
+  })
+  output$histogramPlot1 <- renderPlot({ggplot(dfh1) + 
+      geom_histogram(aes(x=dfh1), binwidth = 10, fill = I("blue")) + labs(x = "Decade", y = "Count") + 
+      theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
+  })
+  
+  dfh2 <-   query(
+    data.world(propsfile = "www/.data.world"),
+    dataset="carolhuang0502/s-17-dv-final-project", type="sql",
+    query="select weight, race 
+    from MediaReadyActiveCases
+    where weight < 500") # %>% View()
+  output$histogramData2 <- renderDataTable({DT::datatable(dfh2,
+                                                          rownames = FALSE,
+                                                          extensions = list(Responsive = TRUE, FixedHeader = TRUE) )
+  })
+  output$histogramPlot2 <- renderPlot({ggplot(dfh2) + geom_histogram(aes(x=weight, fill=race, color="black"), binwidth = 10) + labs(x = "Weight (lbs)", y = "Count")+
+    theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
+    
+  })
+
+  # End Histogram Tab ___________________________________________________________
 
   # Begin Barchart Tab ------------------------------------------------------------------
   df2 <- eventReactive(input$click2, {
@@ -133,7 +198,7 @@ sales = query(
                                             ", State: ", degrees$missingfromcity,
                                             ", Case Type: ", degrees$casetype,
                                             ", Sex: ", degrees$sex
-                                            )) )
+                 )) )
   })
   output$barchartPlot2 <- renderPlotly({p <- ggplot(sales, aes(x=as.character(year), y=record)) +
     theme(axis.text.x=element_text(angle=0, size=7, vjust=0.5)) + 

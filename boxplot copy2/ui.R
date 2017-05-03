@@ -45,9 +45,12 @@ dashboardPage(
                                         "CSV" = "CSV"), inline=T),
                          actionButton(inputId = "click4",  label = "To get data, click here"),
                          hr(), # Add space after button.
-                         DT::dataTableOutput("histogramData1")
+                         DT::dataTableOutput("histogramData1"),
+                         hr(),
+                         DT::dataTableOutput("histogramData2")
                 ),
-                tabPanel("Simple Histogram", plotlyOutput("histogramPlot1", height=1000))
+                tabPanel("Histogram 1", plotlyOutput("histogramPlot1", height=1000)),
+                tabPanel("Histogram 2 ", plotlyOutput("histogramPlot2", height=1000))
               )
       ),
       # End Histograms tab content.
