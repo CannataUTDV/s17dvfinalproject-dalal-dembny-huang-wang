@@ -12,8 +12,8 @@ require(plotly)
 shinyServer(function(input, output) { 
   
   online3 = reactive({input$rb1})
-  KPI_Low = reactive({input$KPI1})     
-  KPI_Medium = reactive({input$KPI2})
+  income_below_25k_Low = reactive({input$income_below_25k_low})     
+  income_below_25k_Medium = reactive({input$income_below_25k_medium})
   
   # These widgets are for the Barcharts tab.
   online2 = reactive({input$rb2})
@@ -160,12 +160,12 @@ output$boxplotPlot1 <- renderPlotly({
       when hh_0k_to_25k/total_households < ? then '03 Low'
       when hh_0k_to_25k/total_households < ? then '02 Medium'
       else '01 High'
-      end AS kpi
+      end AS income_below_25k
       
       from cleanedracedata
       left join incomequeryresult
       on missingfromstate= State",
-      queryParameters = list(KPI_Low(), KPI_Medium())
+      queryParameters = list(income_below_25k_Low(), income_below_25k_Medium())
       
     ) 
     
@@ -178,7 +178,7 @@ output$boxplotPlot1 <- renderPlotly({
   output$plot1 <- renderPlot({ggplot(df1()) + 
       theme(axis.text.x=element_text(angle=90, size=16, vjust=0.5)) + 
       theme(axis.text.y=element_text(size=16, hjust=0.5)) +
-      geom_tile(aes(x=race, y=missingfromstate, fill = kpi), size=6)+
+      geom_tile(aes(x=race, y=missingfromstate, fill = income_below_25k), size=6)+
       geom_text(aes(x=race, y=missingfromstate, label=count), size=6) 
     
   })

@@ -125,19 +125,25 @@ Figure 11 and 12 shows a barchart of the race of missing children vs. the count 
 
 An interesting thing to note for this barchart is the fact that white children are more likely to go missing in each state. Additionally, typically Asian childrens are one of the least likely to go missing in each state. Figure 1 was created in Tableau while Figure 2 was created using Shiny.
 
-### **Figure 13: Visualization 7 - Tableau Visualization**
+### **Figure 13: Visualization 7 - Tableau Visualization High**
+<center> ![Visual](../03 Visualizations/barchart2_top.png) </center>
+
+### **Figure 14: Visualization 7 - Tableau Visualization Medium**
 <center> ![Visual](../03 Visualizations/barchart2.png) </center>
 
+### **Figure 15: Visualization 7 - Tableau Visualization Low**
+<center> ![Visual](../03 Visualizations/barchart2_bottom.png) </center>
 
-### **Figure 14: Visualization 7 - Shiny Visualization**
+
+### **Figure 16: Visualization 7 - Shiny Visualization**
 <center> ![Visual](../03 Visualizations/barchart2_1.png) </center>
 
 
-Figure 13 and 14 show a geographic fields map based on longitude and latitude. The color on the map differentiates between whether females or males are the sex of the majority of the children that have gone missing. A set was made from a barchart of missingfromstate vs. the sum of people with bachelor's degrees in each state. This data was created by joining the MediaReadyActiveCases with the Education data from the US Census Data. This set consists of the "Medium" group with bachelor's degrees. This set was then plotted on the map. For the two figures, the type of case was also included in a popup upon hovering over the location. 
+Figure 13 to 16 show a geographic fields map based on longitude and latitude. The color on the map differentiates between whether females or males are the sex of the majority of the children that have gone missing. A set was made from a barchart of missingfromstate vs. the sum of people with bachelor's degrees in each state. This data was created by joining the MediaReadyActiveCases with the Education data from the US Census Data. The Shiny Visualization set consists of the "Medium" group with bachelor's degrees. This set was then plotted on the map. The Tableau Visualization shows all 3 sets, high amount of bachelor's degree, medium, and low.
 
-Something to notice is that the majority of this set comes from the east side of the United States. Additionally, these cases are typically endangered runaway cases. Figure 3 was created via Tableau while Figure 4 was created using Shiny.
+Something to notice is that the majority of the middle set set comes from the east side of the United States. Additionally, these cases are typically endangered runaway cases. Figure 3 was created via Tableau while Figure 4 was created using Shiny.
 
-Figures 2, 4, 6, 8, 10, 12, and 14 has been published to the following shiny.ios app: https://carolhuang0502.shinyapps.io/finalproject/
+Figures 2, 4, 6, 8, 10, 12, and 16 has been published to the following shiny.ios app: https://carolhuang0502.shinyapps.io/finalproject/
 
 
 #  **Source Code**

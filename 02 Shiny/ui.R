@@ -72,9 +72,9 @@ dashboardPage(
                 tabPanel("Data",  
                          radioButtons("rb1", "Get data from:",
                                       c("SQL" = "SQL"), inline=T),
-                         sliderInput("KPI1", "KPI_Low:", 
+                         sliderInput("income_below_25k_low", "income_below_25k_Low:", 
                                      min = 0, max = .15,  value = .15),
-                         sliderInput("KPI2", "KPI_Medium:", 
+                         sliderInput("income_below_25k_medium", "income_below_25k_Medium:", 
                                      min = .15, max = .3,  value = .3),
                          actionButton(inputId = "click1",  label = "To get data, click here"),
                          hr(), # Add space after button.
